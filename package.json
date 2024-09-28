@@ -1,0 +1,27 @@
+{
+  "name": "jsx-tsx-highlight-util",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rushiKshirsagar/jsx-tsx-highlight-util.git"
+  },
+  "keywords": [
+    "highlight",
+    "mark",
+    "search",
+    "highlight",
+    "react",
+    "js"
+  ],
+  "author": "waba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rushiKshirsagar/jsx-tsx-highlight-util/issues"
+  },
+  "homepage": "https://github.com/rushiKshirsagar/jsx-tsx-highlight-util#readme"
+}
