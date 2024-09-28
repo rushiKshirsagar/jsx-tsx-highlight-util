@@ -6,7 +6,7 @@ export const highlightText = (className, textToHighlight, options = {}) => {
     return;
   }
 
-  const text = element.innerHTML;
+  const originalText = element.textContent;
 
   const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -14,7 +14,7 @@ export const highlightText = (className, textToHighlight, options = {}) => {
     ? textToHighlight.split(" ").filter(Boolean)
     : [textToHighlight];
 
-  let updatedText = text;
+  let updatedText = originalText;
 
   highlights.forEach((highlight) => {
     const escapedHighlight = escapeRegex(highlight);
