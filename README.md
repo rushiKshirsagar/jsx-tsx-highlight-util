@@ -1,4 +1,4 @@
-<span style="background-color: yellow">Jsx Tsx Highlight Util</span>
+`Jsx Tsx Highlight Util`
 
 ## 📝 Description
 
