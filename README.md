@@ -1,6 +1,6 @@
-# jsx-tsx-highlight-util
+<span style="background-color: yellow">Jsx Tsx Highlight Util</span>
 
-## Description
+## 📝 Description
 
 jsx-tsx-highlight-util is a lightweight utility designed to dynamically highlight specific text within a DOM element by its className in React applications. It provides flexibility in highlighting text sequences or separate words, with support for case sensitivity, custom styling, and efficient cleanup of previous highlights. Ideal for search or text filtering use cases, this utility seamlessly integrates into React's lifecycle methods such as useEffect for minimal setup.
 
