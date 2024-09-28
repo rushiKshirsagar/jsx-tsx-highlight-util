@@ -43,7 +43,7 @@ export default App;
 ## Installing
 
 ```
-npm install jsx-tsx-highlight-util
+npm i jsx-tsx-highlight-util
 ```
 
 ## API Reference:
