@@ -31,7 +31,7 @@ export const highlightText = (className, textToHighlight, options = {}) => {
 
     // If the highlight word is less than or equal to 3 characters, ensure it's matched as a whole word
     const regex =
-      highlight.length > 3
+      highlight.length > 1
         ? new RegExp(`(${escapedHighlight})`, regexFlags)
         : new RegExp(`\\b(${escapedHighlight})\\b`, regexFlags);
 
