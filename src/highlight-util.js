@@ -1,27 +1,45 @@
 export const highlightText = (className, textToHighlight, options = {}) => {
-  const { caseSensitive = false, separateWords = false } = options;
+  const {
+    caseSensitive = false,
+    separateWords = false,
+    customStyle = {},
+  } = options;
 
   const element = document.querySelector(`.${className}`);
   if (!element || !textToHighlight) {
     return;
   }
 
-  const originalText = element.textContent;
+  // Reset the element's content to its original text without any <mark> tags
+  const originalText =
+    element.getAttribute("data-original-text") || element.textContent;
+  element.setAttribute("data-original-text", originalText); // Store the original text
 
+  // Create a function to escape special regex characters
   const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+  // Handle separate word search
   const highlights = separateWords
     ? textToHighlight.split(" ").filter(Boolean)
     : [textToHighlight];
 
-  let updatedText = originalText;
+  let updatedText = originalText; // Start with the original text
 
   highlights.forEach((highlight) => {
     const escapedHighlight = escapeRegex(highlight);
     const regexFlags = caseSensitive ? "g" : "gi";
     const regex = new RegExp(`(${escapedHighlight})`, regexFlags);
+
+    // Replace matched words with <mark> tags
     updatedText = updatedText.replace(regex, "<mark>$1</mark>");
   });
 
+  // Update the element's content with the highlighted text
   element.innerHTML = updatedText;
+
+  // Apply custom styles to each <mark> element
+  const markElements = element.querySelectorAll("mark");
+  markElements.forEach((mark) => {
+    Object.assign(mark.style, customStyle); // Apply styles to each <mark>
+  });
 };
