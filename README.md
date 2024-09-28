@@ -4,6 +4,8 @@
 
 jsx-tsx-highlight-util is a lightweight utility designed to dynamically highlight specific text within a DOM element by its className in React applications. It provides flexibility in highlighting text sequences or separate words, with support for case sensitivity, custom styling, and efficient cleanup of previous highlights. Ideal for search or text filtering use cases, this utility seamlessly integrates into React's lifecycle methods such as useEffect for minimal setup.
 
+This library is still in beta and hasn't been thoroughly tested with all Js frameworks/libraries. If you would like to contribute, writing tests, documentation, handling scenarios, please don't hesitate to raise PRs. `1.0.5 is stable.`
+
 #### 🔑 `Key Features:`
 - Separate Word Search: Highlight individual words in a string, even if they appear out of sequence in the DOM element.
 - Case Sensitivity: Toggle case-sensitive or case-insensitive text matching.
