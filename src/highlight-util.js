@@ -1,50 +1,110 @@
-export const highlightText = (className, textToHighlight, options = {}) => {
-  const {
-    caseSensitive = false,
-    separateWords = false,
-    customStyle = {},
-  } = options;
+// HighlightSearch.js
 
-  const element = document.querySelector(`.${className}`);
-  if (!element || !textToHighlight) {
+/**
+ * Function to recursively highlight text in text nodes without modifying element structure
+ * @param {Node} element - The DOM element to highlight text within
+ * @param {string} searchText - The text to search for and highlight
+ * @param {boolean} highlightAsSingleString - If true, highlight as a single string; if false, highlight each word separately
+ * @param {Object} highlightStyle - Custom style object to apply to highlighted text
+ */
+function highlightTextNode(
+  element,
+  searchText,
+  highlightAsSingleString,
+  highlightStyle
+) {
+  const regexPattern = highlightAsSingleString
+    ? new RegExp(searchText, "gi")
+    : new RegExp(
+        searchText
+          .split(/\s+/)
+          .map((word) => `(${word})`)
+          .join("|"),
+        "gi"
+      );
+
+  element.childNodes.forEach((node) => {
+    if (node.nodeType === 3) {
+      // Text node
+      const originalText = node.nodeValue;
+      const highlightedText = originalText.replace(regexPattern, (match) => {
+        const span = document.createElement("span");
+        span.textContent = match;
+
+        // Apply custom styles, if provided
+        if (highlightStyle) {
+          Object.assign(span.style, highlightStyle);
+        } else {
+          span.className = "highlight"; // Fallback to default highlight class if no custom styles
+        }
+        return span.outerHTML;
+      });
+      const newElement = document.createElement("span");
+      newElement.innerHTML = highlightedText;
+      node.replaceWith(newElement);
+    } else if (node.nodeType === 1) {
+      // Element node
+      highlightTextNode(
+        node,
+        searchText,
+        highlightAsSingleString,
+        highlightStyle
+      ); // Recursively search within child elements
+    }
+  });
+}
+
+/**
+ * Function to highlight text based on user input in a search bar
+ * @param {string} searchText - The text entered in the search bar
+ * @param {string} className - The class name where text should be highlighted
+ * @param {boolean} highlightAsSingleString - If true, highlight as a single string; if false, highlight each word separately
+ * @param {Object} highlightStyle - Custom style object to apply to highlighted text
+ */
+function highlightText(
+  searchText,
+  className,
+  highlightAsSingleString = true,
+  highlightStyle = null
+) {
+  if (!searchText) {
+    removeHighlight(className); // Clear highlights if search text is empty
     return;
   }
 
-  // Reset the element's content to its original text without any <mark> tags
-  const originalText =
-    element.getAttribute("data-original-text") || element.textContent;
-  element.setAttribute("data-original-text", originalText); // Store the original text
+  const elements = document.getElementsByClassName(className);
 
-  // Create a function to escape special regex characters
-  const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-  // Handle separate word search
-  const highlights = separateWords
-    ? textToHighlight.split(" ").filter(Boolean)
-    : [textToHighlight];
-
-  let updatedText = originalText; // Start with the original text
-
-  highlights.forEach((highlight) => {
-    const escapedHighlight = escapeRegex(highlight);
-    const regexFlags = caseSensitive ? "g" : "gi";
-
-    // If the highlight word is less than or equal to 3 characters, ensure it's matched as a whole word
-    const regex =
-      highlight.length > 1
-        ? new RegExp(`(${escapedHighlight})`, regexFlags)
-        : new RegExp(`\\b(${escapedHighlight})\\b`, regexFlags);
-
-    // Replace matched words with <mark> tags
-    updatedText = updatedText.replace(regex, "<mark>$1</mark>");
+  Array.from(elements).forEach((element) => {
+    removeHighlightFromElement(element); // Remove any previous highlights before applying new ones
+    highlightTextNode(
+      element,
+      searchText,
+      highlightAsSingleString,
+      highlightStyle
+    );
   });
+}
 
-  // Update the element's content with the highlighted text
-  element.innerHTML = updatedText;
-
-  // Apply custom styles to each <mark> element
-  const markElements = element.querySelectorAll("mark");
-  markElements.forEach((mark) => {
-    Object.assign(mark.style, customStyle); // Apply styles to each <mark>
+/**
+ * Function to remove existing highlights from a specific element
+ * @param {HTMLElement} element - The element to remove highlights from
+ */
+function removeHighlightFromElement(element) {
+  const highlightSpans = element.querySelectorAll(".highlight");
+  highlightSpans.forEach((span) => {
+    const parent = span.parentNode;
+    parent.replaceChild(document.createTextNode(span.innerText), span);
+    parent.normalize(); // Combine adjacent text nodes
   });
-};
+}
+
+/**
+ * Function to remove all highlights from elements with a specific className
+ * @param {string} className - The class name where text should be un-highlighted
+ */
+function removeHighlight(className) {
+  const elements = document.getElementsByClassName(className);
+  Array.from(elements).forEach(removeHighlightFromElement);
+}
+
+export { highlightText, removeHighlight };
