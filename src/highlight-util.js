@@ -1,5 +1,3 @@
-// HighlightSearch.js
-
 /**
  * Function to recursively highlight text in text nodes without modifying element structure
  * @param {Node} element - The DOM element to highlight text within
