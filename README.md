@@ -111,12 +111,6 @@ highlightText(searchText: string, element: string, highlightAsSingleString: bool
 - highlightAsSingleString (optional): If true, highlights the entire string as one match. If false, highlights each word separately. Default is true.
 - highlightStyle (optional): Object with styling details for highlighting
 
-Example:
-
-```
-highlightText("sample text", "highlight-container", false);
-```
-
 #### separateWords:false
 
 ![D7E39C07-4E85-4E33-94C6-7506E43054D8](https://github.com/user-attachments/assets/335bc5c9-fbe8-4eb4-9b99-acad55c5831b)
