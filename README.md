@@ -4,13 +4,13 @@
 
 - Breaking Change: highlightText function now accepts an options object instead of individual parameters. This provides more flexibility and makes the function easier to extend in the future.
 
-Previous Usage (v1.x.x)
+- Previous Usage (v1.x.x)
 
 ```
 highlightText("searchText", "searchable", true, { backgroundColor: "yellow" });
 ```
 
-New Usage (v2.0.0+)
+- New Usage (v2.0.0+)
 
 ```
 highlightText({
@@ -26,23 +26,23 @@ highlightText({
 Default styling if highlightStyle prop is missing:
 
 ```
-background:yellow;
-color:black
+background: yellow;
+color: black
 ```
 
 #### 📝 `Description`
 
 jsx-tsx-highlight-util is a lightweight utility designed to dynamically highlight specific text within a DOM element by its className in React applications. It provides flexibility to highlight text as a single string or as separate words, with support for custom inline styles. The utility efficiently updates highlighted text based on user input and integrates smoothly with React's lifecycle methods such as useEffect.
 
-This library is still in beta and hasn't been thoroughly tested with all Js frameworks/libraries. If you would like to contribute, writing tests, documentation, handling scenarios, please don't hesitate to raise PRs. ` >2.0.0 is stable.`
-
 #### 🔑 `Key Features:`
 
+- Performance Friendly: Lightweight and fast, with no leftover elements affecting performance.
+- Reverts to Original State: Restores your DOM to its exact original form after removing highlights. Applies and removes highlights without bloating or disrupting your HTML structure.
 - Dynamic Text Highlighting: Automatically updates the highlighted text in elements with a specified class based on user input.
 - Highlight as Single String or Words: Choose to highlight a full string or break it into words and highlight each separately.
 - Custom Styling: Easily apply custom styles to highlighted text through inline style objects.
 - Minimal Setup: Works with minimal setup in your React components; simply call it within useEffect to apply highlighting.
-- Efficient Cleanup: Old highlights are removed automatically before applying new ones to avoid overlapping or duplicate highlights.
+- Efficient Cleanup: Old highlights are removed automatically before applying new ones to avoid overlapping or duplicate highlights, keeping your DOM clutter-free.
 
 #### ⛯ `Sample Usage`
 
@@ -127,7 +127,7 @@ highlightText("sample text", "highlight-container", false);
 
 #### 🔮 `Feature Roadmap:`
 
-- Custom Styles as a prop
+- Custom Styles as a prop ✅ (v2.0.1)
 - Navigation between Highlights: Ability to navigate between highlighted words using next/previous buttons.
 - Partial Word Matching: Add support for partial word matches or regex-based highlighting.
 - Persistent Highlights: Option to save and persist highlights across page reloads.
