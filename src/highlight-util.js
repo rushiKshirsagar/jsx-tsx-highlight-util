@@ -25,23 +25,31 @@ function highlightTextNode(
     if (node.nodeType === 3) {
       // Text node
       const originalText = node.nodeValue;
-      const highlightedText = originalText.replace(regexPattern, (match) => {
-        const span = document.createElement("span");
-        span.textContent = match;
 
-        // Apply custom styles, if provided
-        if (highlightStyle) {
-          Object.assign(span.style, highlightStyle);
-        } else {
-          span.className = "highlight"; // Fallback to default highlight class if no custom styles
-        }
-        return span.outerHTML;
-      });
-      const newElement = document.createElement("span");
-      newElement.innerHTML = highlightedText;
-      node.replaceWith(newElement);
-    } else if (node.nodeType === 1) {
-      // Element node
+      // Only apply highlight if there is a match
+      if (regexPattern.test(originalText)) {
+        const highlightedText = originalText.replace(regexPattern, (match) => {
+          const span = document.createElement("span");
+          span.textContent = match;
+          span.className = "highlight";
+          // Default style
+          span.style = "background:yellow; color:black";
+
+          // Apply custom styles, if provided
+          if (highlightStyle) {
+            span.style = "";
+            Object.assign(span.style, highlightStyle);
+          }
+          return span.outerHTML;
+        });
+
+        const newElement = document.createElement("span");
+        newElement.innerHTML = highlightedText;
+
+        node.replaceWith(...newElement.childNodes); // Replace with new nodes, not wrapped span
+      }
+    } else if (node.nodeType === 1 && node.tagName !== "SPAN") {
+      // Skip any nodes that are already <span>
       highlightTextNode(
         node,
         searchText,
@@ -54,32 +62,28 @@ function highlightTextNode(
 
 /**
  * Function to highlight text based on user input in a search bar
- * @param {string} searchText - The text entered in the search bar
- * @param {string} className - The class name where text should be highlighted
- * @param {boolean} highlightAsSingleString - If true, highlight as a single string; if false, highlight each word separately
- * @param {Object} highlightStyle - Custom style object to apply to highlighted text
+ * @param {Object} options - Options object to configure highlighting
+ * @param {string} options.searchText - The text entered in the search bar
+ * @param {string} options.element - The class name or element where text should be highlighted
+ * @param {boolean} options.highlightAsSingleString - If true, highlight as a single string; if false, highlight each word separately
+ * @param {Object} options.highlightStyle - Custom style object to apply to highlighted text
  */
-function highlightText(
+function highlightText({
   searchText,
-  className,
+  element,
   highlightAsSingleString = true,
-  highlightStyle = null
-) {
+  highlightStyle = null,
+}) {
   if (!searchText) {
-    removeHighlight(className); // Clear highlights if search text is empty
+    removeHighlight(element); // Clear highlights if search text is empty
     return;
   }
 
-  const elements = document.getElementsByClassName(className);
+  const elements = document.getElementsByClassName(element);
 
-  Array.from(elements).forEach((element) => {
-    removeHighlightFromElement(element); // Remove any previous highlights before applying new ones
-    highlightTextNode(
-      element,
-      searchText,
-      highlightAsSingleString,
-      highlightStyle
-    );
+  Array.from(elements).forEach((el) => {
+    removeHighlightFromElement(el); // Clear old highlights
+    highlightTextNode(el, searchText, highlightAsSingleString, highlightStyle); // Apply new highlights
   });
 }
 
@@ -88,12 +92,13 @@ function highlightText(
  * @param {HTMLElement} element - The element to remove highlights from
  */
 function removeHighlightFromElement(element) {
-  const highlightSpans = element.querySelectorAll(".highlight");
+  const highlightSpans = element.querySelectorAll("span.highlight");
   highlightSpans.forEach((span) => {
     const parent = span.parentNode;
-    parent.replaceChild(document.createTextNode(span.innerText), span);
-    parent.normalize(); // Combine adjacent text nodes
+    parent.replaceChild(document.createTextNode(span.textContent), span);
   });
+
+  element.normalize(); // Normalize text nodes after removal
 }
 
 /**

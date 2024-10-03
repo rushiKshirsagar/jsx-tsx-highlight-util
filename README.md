@@ -1,10 +1,40 @@
 ## `Jsx Tsx Highlight Util`
 
+#### `What's New (v2.0.0)`
+
+- Breaking Change: highlightText function now accepts an options object instead of individual parameters. This provides more flexibility and makes the function easier to extend in the future.
+
+Previous Usage (v1.x.x)
+
+```
+highlightText("searchText", "searchable", true, { backgroundColor: "yellow" });
+```
+
+New Usage (v2.0.0+)
+
+```
+highlightText({
+  searchText: "searchText",
+  element: "searchable",
+  highlightAsSingleString: true,
+  highlightStyle: { backgroundColor: "yellow" },
+});
+```
+
+- Custom styling now works as a prop.
+
+Default styling if highlightStyle prop is missing:
+
+```
+background:yellow;
+color:black
+```
+
 #### 📝 `Description`
 
 jsx-tsx-highlight-util is a lightweight utility designed to dynamically highlight specific text within a DOM element by its className in React applications. It provides flexibility to highlight text as a single string or as separate words, with support for custom inline styles. The utility efficiently updates highlighted text based on user input and integrates smoothly with React's lifecycle methods such as useEffect.
 
-This library is still in beta and hasn't been thoroughly tested with all Js frameworks/libraries. If you would like to contribute, writing tests, documentation, handling scenarios, please don't hesitate to raise PRs. ` >1.0.5 is stable.`
+This library is still in beta and hasn't been thoroughly tested with all Js frameworks/libraries. If you would like to contribute, writing tests, documentation, handling scenarios, please don't hesitate to raise PRs. ` >2.0.0 is stable.`
 
 #### 🔑 `Key Features:`
 
@@ -19,36 +49,45 @@ This library is still in beta and hasn't been thoroughly tested with all Js fram
 ```
 import React, { useState } from "react";
 import { highlightText } from "jsx-tsx-highlight-util";
-
+import "./App.css";
 const App = () => {
-  const [searchText, setSearchText] = useState("");
+  const [search, setSearch] = useState("");
 
   const handleSearch = (e) => {
     const inputText = e.target.value;
-    setSearchText(inputText);
-
-    highlightText(inputText, "searchable", false);
+    setSearch(inputText);
+    highlightText({
+      searchText: inputText,
+      element: "searchable",
+      highlightAsSingleString: false,
+      highlightStyle: {
+        color: "red",
+        borderBottom: "2px solid red",
+      },
+    });
   };
 
-  const sampleArr = ["abc", "pqr", 1, 2, 3, 4];
+  const sampleArr = ["sample", "text", "to", "search", 1, 2, 3];
 
   return (
-    <div>
+    <div className="searchable">
       <input
         type="text"
-        value={searchText}
+        value={search}
         onChange={handleSearch}
         placeholder="Search..."
       />
-      <div className="searchable">
+      <div>
         This is a sample text for highlighting in your React application.
       </div>
-      <div className="searchable">
-        {sampleArr.map((item, index) => (
-          <ul key={index}>
-            <li>{item}</li>
-          </ul>
-        ))}
+      <div>
+        {sampleArr.map((item, index) => {
+          return (
+            <ul key={index}>
+              <li>{item}</li>
+            </ul>
+          );
+        })}
       </div>
     </div>
   );
@@ -65,26 +104,17 @@ npm i jsx-tsx-highlight-util
 
 #### 🗒️ `API Reference:`
 
-highlightText(searchText: string, className: string, highlightAsSingleString: boolean = true, highlightStyle: object = null)
+highlightText(searchText: string, element: string, highlightAsSingleString: boolean = true, highlightStyle: object = null)
 
 - searchText: The text you want to highlight.
-- className: The class of the DOM elements where the text should be highlighted.
+- element: The class of the DOM elements where the text should be highlighted.
 - highlightAsSingleString (optional): If true, highlights the entire string as one match. If false, highlights each word separately. Default is true.
+- highlightStyle (optional): Object with styling details for highlighting
 
 Example:
 
 ```
 highlightText("sample text", "highlight-container", false);
-```
-
-Sample CSS to be added to your css file attached to the component that needs highlighting.
-This is temperory. customStyles will eventually be a prop in the coming release.
-
-```
-.highlight {
-  background-color: yellow;
-  color: black;
-}
 ```
 
 #### separateWords:false
