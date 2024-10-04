@@ -1,6 +1,8 @@
 ## `Jsx Tsx Highlight Util`
 
-#### `What's New (v2.0.0)`
+[Play around in Sandbox](https://codesandbox.io/p/sandbox/highlight-util-sample-n5zy89)
+
+## `What's New (v2.0.0)`
 
 - Breaking Change: highlightText function now accepts an options object instead of individual parameters. This provides more flexibility and makes the function easier to extend in the future.
 
@@ -30,11 +32,11 @@ background: yellow;
 color: black
 ```
 
-#### 📝 `Description`
+## 📝 `Description`
 
 jsx-tsx-highlight-util is a lightweight utility designed to dynamically highlight specific text within a DOM element by its className in React applications. It provides flexibility to highlight text as a single string or as separate words, with support for custom inline styles. The utility efficiently updates highlighted text based on user input and integrates smoothly with React's lifecycle methods such as useEffect.
 
-#### 🔑 `Key Features:`
+## 🔑 `Key Features:`
 
 - Performance Friendly: Lightweight and fast, with no leftover elements affecting performance.
 - Reverts to Original State: Restores your DOM to its exact original form after removing highlights. Applies and removes highlights without bloating or disrupting your HTML structure.
@@ -44,7 +46,7 @@ jsx-tsx-highlight-util is a lightweight utility designed to dynamically highligh
 - Minimal Setup: Works with minimal setup in your React components; simply call it within useEffect to apply highlighting.
 - Efficient Cleanup: Old highlights are removed automatically before applying new ones to avoid overlapping or duplicate highlights, keeping your DOM clutter-free.
 
-#### ⛯ `Sample Usage`
+## ⛯ `Sample Usage`
 
 ```
 import React, { useState } from "react";
@@ -96,13 +98,13 @@ const App = () => {
 export default App;
 ```
 
-#### 🎬 `Installing`
+## 🎬 `Installing`
 
 ```
 npm i jsx-tsx-highlight-util
 ```
 
-#### 🗒️ `API Reference:`
+## 🗒️ `API Reference:`
 
 highlightText(searchText: string, element: string, highlightAsSingleString: boolean = true, highlightStyle: object = null)
 
@@ -111,15 +113,15 @@ highlightText(searchText: string, element: string, highlightAsSingleString: bool
 - highlightAsSingleString (optional): If true, highlights the entire string as one match. If false, highlights each word separately. Default is true.
 - highlightStyle (optional): Object with styling details for highlighting
 
-#### separateWords:false
+## separateWords:false
 
 ![D7E39C07-4E85-4E33-94C6-7506E43054D8](https://github.com/user-attachments/assets/335bc5c9-fbe8-4eb4-9b99-acad55c5831b)
 
-#### separateWords:true
+## separateWords:true
 
 ![DF661D58-0DAA-4368-B68E-697AB9051A08](https://github.com/user-attachments/assets/6942f379-7234-4b34-952d-93a160a92ad5)
 
-#### 🔮 `Feature Roadmap:`
+## 🔮 `Feature Roadmap:`
 
 - Custom Styles as a prop ✅ (v2.0.1)
 - Navigation between Highlights: Ability to navigate between highlighted words using next/previous buttons.
